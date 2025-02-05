@@ -45,9 +45,14 @@ if __name__ == '__main__':
     print(board.print_board())
     print(f"----------------------------------------------------------------")
 
+    current_player = player1
     while True:
+        i = input(f"{current_player.player_name} ist am zug: ")
 
-        i = input("Spieler 1 ist am zug: ")
-
-        board.insert(i, player1.playerColor)
+        board.insert(i, current_player.player_color)
         print(board.print_board())
+
+        if current_player == player1:
+            current_player = player2
+        else:
+            current_player = player1

@@ -18,6 +18,6 @@ if __name__ == '__main__':
             print("Gegen Spieler oder Computergegner? [spieler/computer]")
             gegner = input("> ")
             if gegner == 'computer':
-                player2.isPlayer = False
+                player2.is_player = False
         elif i == 'start':
             print("Spiel gestartet...")
