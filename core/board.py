@@ -30,8 +30,10 @@ class Board:
             return 0
 
     def print_board(self):
+        print(f"-----------------------------------------")
         for row in self.board:
             print("|" + "|".join(row) + "|")
+        print(f"-----------------------------------------")
 
 
 if __name__ == '__main__':
@@ -41,18 +43,21 @@ if __name__ == '__main__':
     player1 = player.Player("John", "G", True)
     player2 = player.Player("Horst", "R", True)
     board = Board()
-    print(f"----------------------------------------------------------------")
-    print(board.print_board())
-    print(f"----------------------------------------------------------------")
+
+    board.print_board()
 
     current_player = player1
     while True:
         i = input(f"{current_player.player_name} ist am zug: ")
 
-        board.insert(i, current_player.player_color)
-        print(board.print_board())
+        if i != "quit" and i != "exit":
 
-        if current_player == player1:
-            current_player = player2
+            ret = board.insert(i, current_player.player_color)
+            board.print_board()
+
+            if current_player == player1 and ret == 0:
+                current_player = player2
+            elif current_player == player2 and ret == 0:
+                current_player = player1
         else:
-            current_player = player1
+            break
