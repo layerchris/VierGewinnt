@@ -1,4 +1,5 @@
 from core.player import Player
+import random
 
 class Game:
     def __init__(self, p1, p2, b):
@@ -63,7 +64,6 @@ class Game:
         return False
 
     def spielen(self):
-
         self.board.print_board()
 
         current_player = self.player1
@@ -82,5 +82,33 @@ class Game:
                     current_player = self.player2
                 elif current_player == self.player2 and ret == 0:
                     current_player = self.player1
+            else:
+                break
+
+    def spielen_computergegner(self):
+        self.board.print_board()
+
+        current_player = self.player1
+        while True:
+            if current_player.is_player:
+                i = input(f"{current_player.player_name} ist am zug: ")
+
+                if i != "quit" and i != "exit":
+                    ret = self.board.insert(i, current_player.player_color)
+            else:
+                ret = self.board.insert(random.randint(1,8), current_player.player_color)
+                while ret != 0:
+                    ret = self.board.insert(random.randint(1, 8), current_player.player_color)
+
+            self.board.print_board()
+
+            if self.check_win(current_player.player_color):
+                print(f"{current_player.player_name} hat gewonnen!")
+                break
+
+            if current_player == self.player1 and ret == 0:
+                current_player = self.player2
+            elif current_player == self.player2 and ret == 0:
+                current_player = self.player1
             else:
                 break

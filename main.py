@@ -19,8 +19,13 @@ if __name__ == '__main__':
             gegner = input("> ")
             if gegner == 'computer':
                 player2.is_player = False
-        elif i == 'start':
-            print("Spiel gestartet...")
+                player2.player_name = "Computer"
+        elif i == 'start' and player2.is_player:
             spiel = Game(player1, player2, board)
             spiel.spielen()
             board.reset_board()
+        elif i == 'start' and not player2.is_player:
+            spiel = Game(player1, player2, board)
+            spiel.spielen_computergegner()
+            board.reset_board()
+            player2.is_player = True
