@@ -35,29 +35,5 @@ class Board:
             print("|" + "|".join(row) + "|")
         print(f"-----------------------------------------")
 
-
-if __name__ == '__main__':
-    import player
-    print("class Board")
-
-    player1 = player.Player("John", "G", True)
-    player2 = player.Player("Horst", "R", True)
-    board = Board()
-
-    board.print_board()
-
-    current_player = player1
-    while True:
-        i = input(f"{current_player.player_name} ist am zug: ")
-
-        if i != "quit" and i != "exit":
-
-            ret = board.insert(i, current_player.player_color)
-            board.print_board()
-
-            if current_player == player1 and ret == 0:
-                current_player = player2
-            elif current_player == player2 and ret == 0:
-                current_player = player1
-        else:
-            break
+    def reset_board(self):
+        self.board = np.full((6, 7), ' ', dtype=str)

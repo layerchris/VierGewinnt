@@ -5,7 +5,7 @@ class Game:
         self.player1 = p1
         self.player2 = p2
         self.board = b
-        self.num_rows, self.num_columns = self.board.shape
+        self.num_rows, self.num_columns = self.board.board.shape
 
     def check_win(self, player_symbol):
         return (
@@ -18,10 +18,10 @@ class Game:
         for row in range(self.num_rows):
             for col in range(self.num_columns - 3):
                 if (
-                        self.board[row, col] == player_symbol and
-                        self.board[row, col + 1] == player_symbol and
-                        self.board[row, col + 2] == player_symbol and
-                        self.board[row, col + 3] == player_symbol
+                        self.board.board[row, col] == player_symbol and
+                        self.board.board[row, col + 1] == player_symbol and
+                        self.board.board[row, col + 2] == player_symbol and
+                        self.board.board[row, col + 3] == player_symbol
                 ):
                     return True
         return False
@@ -30,10 +30,10 @@ class Game:
         for col in range(self.num_columns):
             for row in range(self.num_rows - 3):
                 if (
-                        self.board[row, col] == player_symbol and
-                        self.board[row + 1, col] == player_symbol and
-                        self.board[row + 2, col] == player_symbol and
-                        self.board[row + 3, col] == player_symbol
+                        self.board.board[row, col] == player_symbol and
+                        self.board.board[row + 1, col] == player_symbol and
+                        self.board.board[row + 2, col] == player_symbol and
+                        self.board.board[row + 3, col] == player_symbol
                 ):
                     return True
         return False
@@ -43,21 +43,44 @@ class Game:
         for row in range(self.num_rows - 3):
             for col in range(self.num_columns - 3):
                 if (
-                        self.board[row, col] == player_symbol and
-                        self.board[row + 1, col + 1] == player_symbol and
-                        self.board[row + 2, col + 2] == player_symbol and
-                        self.board[row + 3, col + 3] == player_symbol
+                        self.board.board[row, col] == player_symbol and
+                        self.board.board[row + 1, col + 1] == player_symbol and
+                        self.board.board[row + 2, col + 2] == player_symbol and
+                        self.board.board[row + 3, col + 3] == player_symbol
                 ):
                     return True
 
         for row in range(3, self.num_rows):
             for col in range(self.num_columns - 3):
                 if (
-                        self.board[row, col] == player_symbol and
-                        self.board[row - 1, col + 1] == player_symbol and
-                        self.board[row - 2, col + 2] == player_symbol and
-                        self.board[row - 3, col + 3] == player_symbol
+                        self.board.board[row, col] == player_symbol and
+                        self.board.board[row - 1, col + 1] == player_symbol and
+                        self.board.board[row - 2, col + 2] == player_symbol and
+                        self.board.board[row - 3, col + 3] == player_symbol
                 ):
                     return True
 
         return False
+
+    def spielen(self):
+
+        self.board.print_board()
+
+        current_player = self.player1
+        while True:
+            i = input(f"{current_player.player_name} ist am zug: ")
+
+            if i != "quit" and i != "exit":
+
+                ret = self.board.insert(i, current_player.player_color)
+                self.board.print_board()
+                if self.check_win(current_player.player_color):
+                    print(f"{current_player.player_name} hat gewonnen!")
+                    break
+
+                if current_player == self.player1 and ret == 0:
+                    current_player = self.player2
+                elif current_player == self.player2 and ret == 0:
+                    current_player = self.player1
+            else:
+                break

@@ -10,7 +10,7 @@ if __name__ == '__main__':
     while True:
         print("Geben Sie einen Befehl ein: ")
         i = input("> ")
-        if i == 'quit':
+        if i == 'quit' or i == 'exit':
             break
         elif i == 'help':
             print("Es gibt folgende Befehle: quit, modus, start")
@@ -21,3 +21,6 @@ if __name__ == '__main__':
                 player2.is_player = False
         elif i == 'start':
             print("Spiel gestartet...")
+            spiel = Game(player1, player2, board)
+            spiel.spielen()
+            board.reset_board()
