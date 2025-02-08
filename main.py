@@ -3,8 +3,8 @@ from core.game import Game
 from core.board import Board
 
 if __name__ == '__main__':
-    player1 = Player("Player 1", "G", True)
-    player2 = Player("Player 2", "R", True)
+    player1 = Player("Spieler 1", "G", True)
+    player2 = Player("Spieler 2", "R", True)
     board = Board()
 
     while True:
@@ -29,3 +29,4 @@ if __name__ == '__main__':
             spiel.spielen_computergegner()
             board.reset_board()
             player2.is_player = True
+            player2.player_name = "Spieler 2"
