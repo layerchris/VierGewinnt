@@ -1,5 +1,7 @@
+from core.board import Board
 from core.player import Player
 import random
+import numpy as np
 
 class Game:
     def __init__(self, p1, p2, b):
@@ -7,6 +9,10 @@ class Game:
         self.player2 = p2
         self.board = b
         self.num_rows, self.num_columns = self.board.board.shape
+
+    def check_draw(self):
+        if np.all(self.board.board != " "):
+            return True
 
     def check_win(self, player_symbol):
         return (
@@ -63,6 +69,15 @@ class Game:
 
         return False
 
+    def switch_player(self, current_player : Player, board_ret_value : bool) -> Player:
+        if current_player == self.player1 and board_ret_value == 0:
+            return self.player2
+        elif current_player == self.player2 and board_ret_value == 0:
+            return self.player1
+        else:
+            return current_player
+
+
     def spielen(self):
         self.board.print_board()
 
@@ -74,14 +89,15 @@ class Game:
 
                 ret = self.board.insert(i, current_player.player_color)
                 self.board.print_board()
-                if self.check_win(current_player.player_color):
+                if self.check_draw():
+                    print(f"Unentschieden!")
+                    break
+                elif self.check_win(current_player.player_color):
                     print(f"{current_player.player_name} hat gewonnen!")
                     break
 
-                if current_player == self.player1 and ret == 0:
-                    current_player = self.player2
-                elif current_player == self.player2 and ret == 0:
-                    current_player = self.player1
+                current_player = self.switch_player(current_player, ret)
+
             else:
                 break
 
@@ -95,20 +111,20 @@ class Game:
 
                 if i != "quit" and i != "exit":
                     ret = self.board.insert(i, current_player.player_color)
+                else:
+                    break
             else:
-                ret = self.board.insert(random.randint(1,8), current_player.player_color)
+                ret = self.board.insert(random.randint(1,7), current_player.player_color)
                 while ret != 0:
-                    ret = self.board.insert(random.randint(1, 8), current_player.player_color)
+                    ret = self.board.insert(random.randint(1, 7), current_player.player_color)
 
             self.board.print_board()
 
-            if self.check_win(current_player.player_color):
+            if self.check_draw():
+                print(f"Unentschieden!")
+                break
+            elif self.check_win(current_player.player_color):
                 print(f"{current_player.player_name} hat gewonnen!")
                 break
 
-            if current_player == self.player1 and ret == 0:
-                current_player = self.player2
-            elif current_player == self.player2 and ret == 0:
-                current_player = self.player1
-            else:
-                break
+            current_player = self.switch_player(current_player, ret)
